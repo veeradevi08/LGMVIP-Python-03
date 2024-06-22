@@ -1,0 +1,87 @@
+import pygame
+import random
+
+# Initialize Pygame
+pygame.init()
+
+# Screen dimensions
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+
+# Initialize screen
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Rock Paper Scissors")
+
+# Fonts
+font = pygame.font.Font(None, 36)
+
+def get_computer_move():
+    return random.choice(["rock", "paper", "scissors"])
+
+def determine_winner(player_move, computer_move):
+    if player_move == computer_move:
+        return "Tie"
+    elif (player_move == "rock" and computer_move == "scissors") or \
+         (player_move == "paper" and computer_move == "rock") or \
+         (player_move == "scissors" and computer_move == "paper"):
+        return "Player wins"
+    else:
+        return "Computer wins"
+
+# Main game loop
+running = True
+while running:
+    screen.fill(WHITE)  # Fill the screen with white
+
+    # Draw text
+    text = font.render("Press 'R' for Rock, 'P' for Paper, 'S' for Scissors", True, BLACK)
+    text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, 50))
+    screen.blit(text, text_rect)
+
+    # Event handling
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+            elif event.key == pygame.K_r:
+                player_move = "rock"
+                computer_move = get_computer_move()
+                winner = determine_winner(player_move, computer_move)
+                result_text = font.render(f"Player: {player_move.capitalize()}  Computer: {computer_move.capitalize()}", True, BLACK)
+                result_rect = result_text.get_rect(center=(SCREEN_WIDTH // 2, 200))
+                screen.blit(result_text, result_rect)
+                outcome_text = font.render(winner, True, RED)
+                outcome_rect = outcome_text.get_rect(center=(SCREEN_WIDTH // 2, 300))
+                screen.blit(outcome_text, outcome_rect)
+            elif event.key == pygame.K_p:
+                player_move = "paper"
+                computer_move = get_computer_move()
+                winner = determine_winner(player_move, computer_move)
+                result_text = font.render(f"Player: {player_move.capitalize()}  Computer: {computer_move.capitalize()}", True, BLACK)
+                result_rect = result_text.get_rect(center=(SCREEN_WIDTH // 2, 200))
+                screen.blit(result_text, result_rect)
+                outcome_text = font.render(winner, True, RED)
+                outcome_rect = outcome_text.get_rect(center=(SCREEN_WIDTH // 2, 300))
+                screen.blit(outcome_text, outcome_rect)
+            elif event.key == pygame.K_s:
+                player_move = "scissors"
+                computer_move = get_computer_move()
+                winner = determine_winner(player_move, computer_move)
+                result_text = font.render(f"Player: {player_move.capitalize()}  Computer: {computer_move.capitalize()}", True, BLACK)
+                result_rect = result_text.get_rect(center=(SCREEN_WIDTH // 2, 200))
+                screen.blit(result_text, result_rect)
+                outcome_text = font.render(winner, True, RED)
+                outcome_rect = outcome_text.get_rect(center=(SCREEN_WIDTH // 2, 300))
+                screen.blit(outcome_text, outcome_rect)
+
+    pygame.display.flip()  # Update the display
+
+# Quit Pygame
+pygame.quit()
